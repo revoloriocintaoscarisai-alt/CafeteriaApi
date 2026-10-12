@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using CafeteriaApi.Data;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddCors(o => o.AddPolicy("cocina", p =>
+    p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
 
 // 1. Registra la conexión a PostgreSQL (Railway)
 // La cadena de conexión NO va en el código ni en appsettings.json: en Railway se entrega con la
@@ -44,6 +46,7 @@ catch
 }
 
 var app = builder.Build();
+app.UseCors("cocina");
 
 // 3. Crea las tablas y el menú inicial si no existen (equivale a cafeteria_postgres.sql).
 // Se puede ejecutar en cada arranque: no borra datos ni duplica el menú.
